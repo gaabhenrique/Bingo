@@ -18,8 +18,27 @@ function shuffleCells() {
   });
 }
 
-function markCell(cell) {
-  cell.classList.toggle("marked");
+window.addEventListener("load", function () {
+  shuffleCells();
+
+  var cells = document.getElementsByTagName("td");
+  for (var i = 0; i < cells.length; i++) {
+    cells[i].addEventListener("click", function () {
+      clickCell(this);
+    });
+  }
+});
+
+function clickCell(cell) {
+  if (!cell.classList.contains("marked")) {
+    cell.classList.add("marked", "fadeIn");
+  } else {
+    cell.classList.add("fadeOut");
+    setTimeout(() => {
+      cell.classList.remove("marked", "fadeOut");
+    }, 300);
+  }
+
   setTimeout(function () {
     cell.classList.toggle("animate");
     checkVictory();
@@ -106,24 +125,13 @@ function checkVictory() {
   if (winRow && winColumn && winMD && winSD) {
     for (var i = 0; i < cells.length; i++) {
       if (!cells[i].classList.contains("marked")) {
-        return
+        return;
       }
     }
-    Win("cartela cheia")
+    Win("cartela cheia");
   }
 }
 
 function Win(message) {
-  window.alert(`Ganhou por ${message}, Parabens!!!!`)
+  window.alert(`Ganhou por ${message}, Parabens!!!!`);
 }
-
-window.addEventListener("load", function () {
-  shuffleCells();
-
-  var cells = document.getElementsByTagName("td");
-  for (var i = 0; i < cells.length; i++) {
-    cells[i].addEventListener("click", function () {
-      markCell(this);
-    });
-  }
-});
